@@ -1,4 +1,4 @@
-🔍 Extension Scanner
+🔍 **Extension Scanner**
 
 A Chrome Extension that scans installed browser extensions to detect potential risks based on permissions, host access, install type, and suspicious keywords.
 
