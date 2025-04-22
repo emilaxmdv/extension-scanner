@@ -1,0 +1,34 @@
+{
+  "keywords": [
+    { "pattern": "free", "score": 2, "note": "Common term used for malicious offers or 'too good to be true' promises" },
+    { "pattern": "vpn", "score": 3, "note": "Suspicious term, often linked to privacy tools that can be abused" },
+    { "pattern": "cracked", "score": 4, "note": "Indicates software piracy or potential malware risk" },
+    { "pattern": "spyware", "score": 5, "note": "Highly suspicious term, often associated with data-stealing malware" },
+    { "pattern": "keylogger", "score": 5, "note": "Dangerous, malicious software designed to record keystrokes" },
+    { "pattern": "tracker", "score": 3, "note": "Usually associated with data collection, can be used for nefarious purposes" },
+    { "pattern": "hacked", "score": 4, "note": "Indicates a potentially compromised or unauthorized software" },
+    { "pattern": "unlimited", "score": 2, "note": "Often seen in scams or malicious extensions offering 'unlimited' services" },
+    { "pattern": "adblock", "score": 2, "note": "May sometimes be associated with potentially harmful behavior, such as altering content" },
+    { "pattern": "bot", "score": 3, "note": "Suspicious term, could indicate an automated or malicious function" },
+    { "pattern": "crypto", "score": 4, "note": "May relate to cryptocurrency mining, which can be harmful or used for scams" },
+    { "pattern": "phishing", "score": 5, "note": "Extremely high-risk term, indicating malicious intent to steal user data" },
+    { "pattern": "fake", "score": 4, "note": "Usually associated with fraudulent or deceptive applications" },
+    { "pattern": "spam", "score": 3, "note": "Can be indicative of extensions used for mass marketing or scams" },
+    { "pattern": "malware", "score": 5, "note": "Directly indicates malicious software designed to harm or exploit systems" },
+    { "pattern": "hijacker", "score": 5, "note": "Indicates a malicious extension that could hijack browser behavior" }
+  ],
+  "high_risk_hosts": [
+    "<all_urls>",
+    "*://*/*",
+    "http://*/*",
+    "https://*/*",
+    "ftp://*/*",
+    "ws://*/*",
+    "wss://*/*",
+    "file:///*",
+    "*://localhost/*",
+    "*://127.0.0.1/*",
+    "*://*.torproject.org/*",
+    "*://*.onion/*"
+  ]
+}

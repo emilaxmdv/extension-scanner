@@ -1,0 +1,102 @@
+html, body {
+  width: 400px;
+  height: 600px;
+  margin: 0;
+  padding: 0;
+  background-color: #121212;
+  color: #f1f1f1;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-y: auto;
+}
+
+.container {
+  padding: 16px;
+}
+
+h1 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #00adb5;
+}
+
+.extension {
+  background-color: #1f1f1f;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.extension-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.extension-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.risk-score {
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.risk-low {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.risk-medium {
+  background-color: #f9a825;
+  color: black;
+}
+
+.risk-high {
+  background-color: #c62828;
+  color: white;
+}
+
+.extension-summary {
+  margin: 8px 0;
+  font-size: 13px;
+  color: #cccccc;
+}
+
+.extension-details {
+  margin-top: 8px;
+  font-size: 13px;
+  display: none;
+  line-height: 1.4em;
+}
+
+button.expand-button {
+  margin-top: 10px;
+  padding: 6px 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+button.expand-button:hover {
+  background-color: #444;
+}
+
+.permission-chip {
+  background-color: #3a3a3a;
+  color: #ddd;
+  padding: 2px 6px;
+  margin-right: 4px;
+  margin-top: 4px;
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 12px;
+}
