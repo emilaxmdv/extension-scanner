@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MalXtension",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "description": "Detect malicious Chrome extensions before they harm you — AST-based behavioral analysis, obfuscation scoring, and CRX deep scanning",
   "permissions": [
     "management",
