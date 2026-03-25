@@ -177,25 +177,29 @@ async function scanInstalledExt(id) {
 //  CRX Scan (Web Store)
 // ═══════════════════════════════════════════════════════════════
 async function runScan(extensionId) {
-  showLoading('Fetching extension…');
+  showLoading('Checking extension…');
   try {
-    const resp = await chrome.runtime.sendMessage({ action: 'fetchWebStoreExtension', extensionId });
-    if (!resp.success) throw new Error(resp.error);
-
+    // First check if already installed (small message, no size issue)
+    const resp = await chrome.runtime.sendMessage({ action: 'checkInstalled', extensionId });
+    
     let manifest, jsFiles, name;
 
-    if (resp.data.needsParsing) {
-      addStep('Downloading CRX file…');
-      const bytes = new Uint8Array(resp.data.crxData);
-      addStep('Extracting extension files…');
-      const parsed = await parseCRXDataInline(bytes);
-      manifest = parsed.manifest;
-      jsFiles  = parsed.jsFiles;
-      name     = parsed.name;
-    } else {
+    if (resp.success && resp.data) {
+      // Extension is installed — use manifest from chrome.management
+      addStep('Found installed extension…');
       manifest = resp.data.manifest;
       jsFiles  = resp.data.jsFiles || [];
       name     = resp.data.name || manifest.name;
+    } else {
+      // Not installed — download CRX directly from popup (no 64MB message limit)
+      addStep('Downloading CRX from Web Store…');
+      const crxBytes = await downloadCRX(extensionId);
+      
+      addStep('Extracting extension files…');
+      const parsed = await parseCRXDataInline(crxBytes);
+      manifest = parsed.manifest;
+      jsFiles  = parsed.jsFiles;
+      name     = parsed.name;
     }
 
     addStep(`Running AST analysis on ${jsFiles.length} file(s)…`);
@@ -208,6 +212,31 @@ async function runScan(extensionId) {
   } finally {
     hideLoading();
   }
+}
+
+/**
+ * Download CRX directly from popup (CORS bypassed via host_permissions in MV3)
+ */
+async function downloadCRX(extensionId) {
+  const urls = [
+    `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=120.0&acceptformat=crx3&x=id%3D${extensionId}%26uc`,
+    `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=49.0&acceptformat=crx2,crx3&x=id%3D${extensionId}%26uc`,
+  ];
+
+  for (const url of urls) {
+    try {
+      const resp = await fetch(url, { redirect: 'follow' });
+      if (resp.ok) {
+        const buf = await resp.arrayBuffer();
+        return new Uint8Array(buf);
+      }
+    } catch {}
+  }
+
+  throw new Error(
+    'CRX download failed — extension may not exist or Google is blocking the request. ' +
+    'Try installing the extension first, then scan from the "Installed" tab.'
+  );
 }
 
 // ═══════════════════════════════════════════════════════════════
