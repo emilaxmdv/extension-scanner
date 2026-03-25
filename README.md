@@ -3,7 +3,7 @@
 Detect malicious Chrome extensions before they harm you. Advanced static analysis with **two independent modules**:
 
 ```
-extension-scanner-v3/
+extension-scanner/
 ├── scan-engine/          ← Core analysis library (standalone, testable)
 │   └── src/
 │       ├── analyzer.js           # Orchestrator — runs all sub-analyses
@@ -38,16 +38,39 @@ extension-scanner-v3/
 
 ## Quick Start
 
+### 🔽 Just want to use it? (No coding required)
+
+1. Go to [Releases](https://github.com/emilaxmdv/extension-scanner/releases)
+2. Download `malxtension-v2.0.0-extension.zip`
+3. Extract the zip
+4. Open `chrome://extensions` in your browser
+5. Enable **Developer mode** (top right toggle)
+6. Click **Load unpacked** → select the `extension/` folder
+7. Done! Click the MalXtension icon in your toolbar to start scanning.
+
+Works on all Chromium browsers: Chrome, Edge, Brave, Opera, Vivaldi.
+
+---
+
+### 🛠️ Want to modify the code? (For developers)
+
+If you want to edit the scan engine and rebuild:
+
 ```bash
-# 1. Install dependencies
+git clone https://github.com/emilaxmdv/extension-scanner.git
+cd extension-scanner
+
+# Install dependencies (only needed once)
 npm install
 
-# 2. Build scan engine → extension/lib/scan-engine.bundle.js
+# Build scan engine → extension/lib/scan-engine.bundle.js
 npm run build
 
-# 3. Load extension in Chrome
-#    → chrome://extensions → Developer mode → Load unpacked → select extension/
+# Load extension in Chrome
+# → chrome://extensions → Developer mode → Load unpacked → select extension/
 ```
+
+After editing files in `scan-engine/src/`, run `npm run build` again to update the bundle.
 
 ---
 
@@ -90,7 +113,7 @@ manifest.json + JS files
   Final Score (0-100) → Risk Level (Low/Medium/High/Critical)
 ```
 
-**v3 Enhancements over v2:**
+**v2 enhancements over v1:**
 - Browser fingerprinting detection (canvas, WebGL, audio, fonts)
 - Crypto-mining pattern recognition
 - WASM instantiation detection
