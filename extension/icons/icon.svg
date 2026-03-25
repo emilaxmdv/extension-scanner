@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background rounded square -->
+  <rect width="512" height="512" rx="108" fill="#6366f1"/>
+
+  <!-- Shield shape -->
+  <path d="M256 72 L408 140 L408 280 C408 370 340 432 256 456 C172 432 104 370 104 280 L104 140 Z"
+        fill="#4f46e5" stroke="none"/>
+
+  <!-- Inner shield highlight -->
+  <path d="M256 100 L384 158 L384 274 C384 352 324 406 256 428 C188 406 128 352 128 274 L128 158 Z"
+        fill="#6366f1" stroke="none"/>
+
+  <!-- The X mark — bold, centered -->
+  <g stroke="#fff" stroke-width="42" stroke-linecap="round">
+    <line x1="192" y1="196" x2="320" y2="340"/>
+    <line x1="320" y1="196" x2="192" y2="340"/>
+  </g>
+
+  <!-- Scanning line — horizontal accent -->
+  <line x1="160" y1="268" x2="352" y2="268" stroke="#c4b5fd" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- Small scan dots -->
+  <circle cx="160" cy="268" r="8" fill="#c4b5fd" opacity="0.9"/>
+  <circle cx="352" cy="268" r="8" fill="#c4b5fd" opacity="0.9"/>
+</svg>

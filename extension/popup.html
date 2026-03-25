@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MalXtension</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+
+    <!-- ─── Header ─────────────────────────────────────── -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <line x1="9" y1="9" x2="15" y2="15"/>
+            <line x1="15" y1="9" x2="9" y2="15"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="header-title">MalXtension</h1>
+          <span class="header-subtitle">Extension Threat Scanner</span>
+        </div>
+      </div>
+      <span class="version-badge">v2.0</span>
+    </header>
+
+    <!-- ─── Tab Bar ────────────────────────────────────── -->
+    <nav class="tab-bar">
+      <button class="tab active" data-tab="scan">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Scan
+      </button>
+      <button class="tab" data-tab="installed">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h6"/></svg>
+        Installed
+      </button>
+      <button class="tab" data-tab="history">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        History
+      </button>
+    </nav>
+
+    <!-- ─── Tab Panels ─────────────────────────────────── -->
+    <main class="panels">
+
+      <!-- SCAN panel -->
+      <section class="panel active" id="panel-scan">
+        <div class="input-group">
+          <label class="input-label">Chrome Web Store URL or Extension ID</label>
+          <div class="input-row">
+            <input type="text" id="scan-input" class="input" placeholder="Paste URL or 32-char ID…" spellcheck="false">
+            <button id="scan-btn" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Scan
+            </button>
+          </div>
+        </div>
+
+        <div class="quick-links">
+          <span class="quick-label">Try:</span>
+          <button class="chip" data-id="cjpalhdlnbpafiamejdnhcphjbkeiagm">uBlock Origin</button>
+          <button class="chip" data-id="hdokiejnpimakedhajhdlcegeplioahd">LastPass</button>
+        </div>
+
+        <div class="info-box">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          Scan any extension <strong>without installing it</strong> — we download and deep-analyse the CRX file with full AST parsing.
+        </div>
+      </section>
+
+      <!-- INSTALLED panel -->
+      <section class="panel" id="panel-installed">
+        <div class="section-head">
+          <span class="section-title">Your Extensions</span>
+          <button id="refresh-btn" class="btn btn-ghost btn-sm" title="Refresh">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+          </button>
+        </div>
+        <div id="ext-list" class="ext-list">
+          <div class="loader"><div class="spinner"></div><span>Loading extensions…</span></div>
+        </div>
+      </section>
+
+      <!-- HISTORY panel -->
+      <section class="panel" id="panel-history">
+        <div id="history-list" class="history-list">
+          <p class="empty-state">No scans yet. Results will appear here.</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- ─── Results Overlay ────────────────────────────── -->
+    <div id="results" class="results hidden">
+      <div class="results-topbar">
+        <h3 id="res-name" class="results-name">—</h3>
+        <button id="close-results" class="btn btn-ghost btn-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Score hero -->
+      <div class="score-hero">
+        <div class="score-ring-wrap">
+          <svg class="score-ring" viewBox="0 0 120 120">
+            <circle class="ring-bg" cx="60" cy="60" r="52" />
+            <circle id="ring-progress" class="ring-fg" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73" />
+          </svg>
+          <div class="score-inner">
+            <span id="score-num" class="score-num">—</span>
+            <span class="score-of">/100</span>
+          </div>
+        </div>
+        <div class="score-meta">
+          <span id="level-badge" class="level-badge">—</span>
+          <p id="risk-desc" class="risk-desc"></p>
+          <span id="scan-time" class="scan-time"></span>
+        </div>
+      </div>
+
+      <!-- Breakdown bars -->
+      <div class="section-card">
+        <h4 class="card-title">Score Breakdown</h4>
+        <div class="bars" id="bars"></div>
+      </div>
+
+      <!-- Concerns -->
+      <div id="concerns-card" class="section-card hidden">
+        <h4 class="card-title warning">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Security Concerns
+        </h4>
+        <ul id="concerns-ul" class="detail-list"></ul>
+      </div>
+
+      <!-- Escalation rules triggered -->
+      <div id="escalation-card" class="section-card hidden">
+        <h4 class="card-title danger">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Triggered Escalation Rules
+        </h4>
+        <div id="escalation-list" class="escalation-list"></div>
+      </div>
+
+      <!-- Permissions -->
+      <div id="perms-card" class="section-card hidden">
+        <h4 class="card-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          High-Risk Permissions
+        </h4>
+        <div id="perms-badges" class="perm-badges"></div>
+      </div>
+
+      <!-- Behavioral indicators -->
+      <div id="behavior-card" class="section-card hidden">
+        <h4 class="card-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          Behavioral Indicators
+        </h4>
+        <div id="behavior-table" class="behavior-table"></div>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="section-card">
+        <h4 class="card-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          Recommendations
+        </h4>
+        <ul id="recs-ul" class="detail-list recs"></ul>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions-row">
+        <button id="export-btn" class="btn btn-secondary btn-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export JSON
+        </button>
+        <button id="copy-btn" class="btn btn-secondary btn-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+    </div>
+
+    <!-- ─── Loading Overlay ────────────────────────────── -->
+    <div id="loading" class="loading-overlay hidden">
+      <div class="loading-card">
+        <div class="spinner lg"></div>
+        <p id="loading-msg" class="loading-msg">Analysing…</p>
+        <div id="loading-steps" class="loading-steps"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="lib/jszip.min.js"></script>
+  <script src="lib/scan-engine.bundle.js"></script>
+  <script src="crx-parser.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

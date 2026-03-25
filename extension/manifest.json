@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "MalXtension",
+  "version": "3.0.0",
+  "description": "Detect malicious Chrome extensions before they harm you — AST-based behavioral analysis, obfuscation scoring, and CRX deep scanning",
+  "permissions": [
+    "management",
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://chrome.google.com/*",
+    "https://chromewebstore.google.com/*",
+    "https://clients2.google.com/*",
+    "https://clients2.googleusercontent.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chrome.google.com/webstore/*",
+        "https://chromewebstore.google.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

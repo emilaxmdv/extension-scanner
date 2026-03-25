@@ -1,0 +1,20 @@
+{
+  "name": "malxtension",
+  "version": "3.0.0",
+  "description": "MalXtension — Detect malicious Chrome extensions with AST-based analysis",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:engine": "node scripts/build-engine.js",
+    "build": "npm run build:engine",
+    "dev": "npm run build:engine -- --watch"
+  },
+  "dependencies": {
+    "acorn": "^8.11.3",
+    "acorn-walk": "^8.3.2",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.20.0"
+  }
+}
